@@ -5,14 +5,17 @@
 //     alert("button clicked!");
 // });
 
-var buttonEl = document.querySelector("#save-task");
-var tasksToDo = document.querySelector("#tasks-to-do");
+var formEl = document.querySelector("#task-form");
+var tasksToDoEl = document.querySelector("#tasks-to-do");
 
-var createTaskHandler = function() {
+var createTaskHandler = function(event) {
+    //prevents the browser from refreshing after sumbitting!
+    event.preventDefault();
+
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
     listItemEl.textContent = "This is a new task.";
-    tasksToDo.appendChild(listItemEl);
+    tasksToDoEl.appendChild(listItemEl);
 };
 
-buttonEl.addEventListener("click", createTaskHandler);
+formEl.addEventListener("submit", createTaskHandler);
