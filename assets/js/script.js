@@ -104,8 +104,8 @@ var createTaskActions = function(taskId) {
 
     //creates select button
     var statusSelectEl = document.createElement("select");
-    statusSelectEl.setAttribute = ("name", "status-change");
-    statusSelectEl.setAttribute = ("data-task-id", taskId);
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
     statusSelectEl.className = "select-status";
     // adds created select button to actionContainerEl div we created 
     actionContainerEl.appendChild(statusSelectEl);
@@ -153,7 +153,7 @@ var editTask = function(taskId) {
     //get content from task name and type
     var taskName = taskSelected.querySelector("h3.task-name").textContent;
     var taskType = taskSelected.querySelector("span.task-type").textContent;
-    
+
     document.querySelector("input[name='task-name']").value = taskName;
     document.querySelector("select[name='task-type']").value = taskType;
     document.querySelector("#save-task").textContent = "Save Task";
@@ -187,6 +187,7 @@ var taskStatusChangeHandler = function(event) {
 
     //find the parent task item element based on the id 
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    console.log(taskSelected);
 
     if (statusValue === "to do") {
         tasksToDoEl.appendChild(taskSelected);
