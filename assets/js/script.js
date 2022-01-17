@@ -56,9 +56,6 @@ var taskFormHandler = function(event) {
 };
 
 var createTaskEl = function(taskDataObj) {
-    console.log(taskDataObj);
-    console.log(taskDataObj.status);
-
     //create list item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
@@ -88,6 +85,9 @@ var createTaskEl = function(taskDataObj) {
 
     //increase task counter for next unique id
     taskIdCounter++;
+
+    //sets item for localStorage
+    saveTasks();
 };
 
 var createTaskActions = function(taskId) {
@@ -147,7 +147,11 @@ var deleteTask = function(taskId) {
             updatedTaskArr.push(tasks[i]);
         }
     }
+    //  reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+
+    //sets item for localStorage
+    saveTasks();
 }
 
 var taskButtonHandler = function(event) {
@@ -199,6 +203,9 @@ var comepleteEditTask = function (taskName, taskType, taskId) {
     }
 
     alert("Task Updated!");
+    
+    //sets item for localStorage
+    saveTasks();
 
     // this removes the id and takes you back out of editing a task
     formEl.removeAttribute("data-task-id");
@@ -231,11 +238,40 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
-    console.log(tasks);
+    //sets item for localStorage
+    saveTasks();
 };
+
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+    //get task items from localStorage
+    //convert tasks from string format back to array of objects
+    //iterates thorugh a tasks array and creates a task elements on a page from it - for loop
+
+var loadTasks = function() {
+    var savedTasks = localStorage.getItem("tasks");
+
+    if (!savedTasks) {
+        return false;
+    }
+
+    savedTasks = JSON.parse(savedTasks);
+
+    //loop through savedTasks array
+    for (var i = 0; i < savedTasks.length; i++) {
+    // pass each task object into createTaskEl() 
+    createTaskEl(savedTasks[i]);
+    }
+
+};
+
+
 
 formEl.addEventListener("submit", taskFormHandler);
 // listens for a click on the button we created to add a task, then passes the taskButtonHandler Function
 pageContentEl.addEventListener("click", taskButtonHandler);
 // listens for a change to path the edited task and passes into the taskStatusChangeHandler, where we move the task over
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+loadTasks();
